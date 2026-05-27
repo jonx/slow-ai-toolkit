@@ -1,0 +1,19 @@
+{
+  "name": "slow-ai-toolkit",
+  "version": "0.1.0",
+  "description": "The Slow AI working method: verify, plan, approve, implement, test, note, move on. Three skills for the three scenarios — bootstrap, add-feature, rescue.",
+  "author": {
+    "name": "jonx"
+  },
+  "homepage": "https://github.com/jonx/slow-ai-toolkit",
+  "repository": "https://github.com/jonx/slow-ai-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "slow-ai",
+    "method",
+    "agentic-coding",
+    "discipline",
+    "code-review",
+    "defensible-code"
+  ]
+}

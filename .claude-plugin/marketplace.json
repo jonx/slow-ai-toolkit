@@ -1,0 +1,14 @@
+{
+  "name": "slow-ai",
+  "owner": {
+    "name": "jonx"
+  },
+  "description": "The Slow AI toolkit — a working method for using AI coding agents on serious work.",
+  "plugins": [
+    {
+      "name": "slow-ai-toolkit",
+      "source": "./",
+      "description": "Three skills (bootstrap, add-feature, rescue) plus the method docs and portable prompt templates."
+    }
+  ]
+}

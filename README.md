@@ -12,7 +12,29 @@ Full rationale in [`METHOD.md`](METHOD.md).
 
 ## Agent-agnostic
 
-The method is agent-agnostic. The skill packaging targets [Claude Code](https://claude.com/claude-code), but the prompts and method paste cleanly into Cursor, Aider, Continue, Cline, plain ChatGPT, Claude.ai web — anything that takes natural-language input. See [Using this with any agent](#using-this-with-any-agent) below.
+The method is agent-agnostic. The plugin packaging targets [Claude Code](https://claude.com/claude-code), but the prompts and method paste cleanly into Cursor, Aider, Continue, Cline, plain ChatGPT, Claude.ai web — anything that takes natural-language input. See [Using this with any agent](#using-this-with-any-agent) below.
+
+## Install (Claude Code)
+
+This repo ships as a Claude Code plugin that bundles three skills (`bootstrap`, `add-feature`, `rescue`) and includes its own marketplace manifest.
+
+```sh
+# Add the marketplace, then install the plugin
+/plugin marketplace add github:jonx/slow-ai-toolkit
+/plugin install slow-ai-toolkit@slow-ai
+```
+
+Once installed, the right skill auto-activates when you describe what you're doing — "help me build a CLI", "add a feature to this app", "rescue this codebase" — and walks you through the protocol before any code is written.
+
+You can also invoke a skill explicitly:
+
+```
+/slow-ai-toolkit:bootstrap
+/slow-ai-toolkit:add-feature
+/slow-ai-toolkit:rescue
+```
+
+To update later: `/plugin update`. To uninstall: `/plugin uninstall slow-ai-toolkit@slow-ai`.
 
 ## When to use which
 
@@ -135,28 +157,31 @@ If you find yourself reaching for the rescue template often, that's a signal som
 The toolkit has three layers, designed to peel apart cleanly:
 
 1. **The prompts** ([`prompts/*.md`](prompts/)) are plain text with bracketed fields. Copy, fill in, paste as the first message in any agent session. No setup, no integration.
-2. **The skill** ([`skill/SKILL.md`](skill/SKILL.md)) auto-loads the method into Claude Code when trigger phrases match. It's plain markdown with a YAML header; tools that consume similar formats can adapt it.
+2. **The skills** ([`skills/*/SKILL.md`](skills/)) auto-load the matching protocol into Claude Code when trigger phrases fire. They're plain markdown with a YAML header; tools that consume similar formats can adapt them.
 3. **The method** ([`METHOD.md`](METHOD.md)) is the canonical reference. Read once, internalize, apply with or without the prompts. The layer that survives switching tools.
 
 Concrete per-tool notes:
 
-- **Claude Code:** install the skill (see [`skill/README.md`](skill/README.md)) so it auto-loads on trigger phrases. Or paste a prompt manually.
-- **Cursor:** paste a prompt into chat. For project-wide enforcement, drop the skill content into `.cursor/rules/slow-ai.mdc` as a project rule.
-- **Aider:** paste a prompt as the first message. For repeated use, point `--read` at a file containing the skill content.
-- **Continue / Cline:** paste a prompt at the top of a session, or place the skill content in the tool's custom-instructions / rules file.
-- **Plain ChatGPT, Claude.ai web, Gemini:** paste a prompt at the top of the conversation. If the tool supports custom instructions or system prompts, drop the skill content there.
+- **Claude Code:** install the plugin (see [Install (Claude Code)](#install-claude-code) above). The three skills auto-activate on trigger phrases. Or paste a prompt manually if you prefer.
+- **Cursor:** paste a prompt into chat. For project-wide enforcement, drop the body of one of the `skills/*/SKILL.md` files into `.cursor/rules/slow-ai.mdc`.
+- **Aider:** paste a prompt as the first message. For repeated use, point `--read` at a file containing a skill body.
+- **Continue / Cline:** paste a prompt at the top of a session, or place a skill body in the tool's custom-instructions / rules file.
+- **Plain ChatGPT, Claude.ai web, Gemini:** paste a prompt at the top of the conversation. If the tool supports custom instructions or system prompts, drop a skill body there.
 - **Anything else:** the prompts are plain text. They work wherever natural language goes in.
 
 The discipline travels. The packaging is a convenience.
 
 ## Files
 
-- [`prompts/bootstrap.md`](prompts/bootstrap.md) - new project, blank slate
-- [`prompts/add-feature.md`](prompts/add-feature.md) - new feature, healthy host project
-- [`prompts/rescue.md`](prompts/rescue.md) - existing project, unknown or messy state
+- [`prompts/bootstrap.md`](prompts/bootstrap.md) - new project, blank slate (paste-anywhere template)
+- [`prompts/add-feature.md`](prompts/add-feature.md) - new feature, healthy host project (paste-anywhere template)
+- [`prompts/rescue.md`](prompts/rescue.md) - existing project, unknown or messy state (paste-anywhere template)
+- [`skills/bootstrap/SKILL.md`](skills/bootstrap/SKILL.md) - Claude Code skill that auto-applies the bootstrap protocol
+- [`skills/add-feature/SKILL.md`](skills/add-feature/SKILL.md) - Claude Code skill that auto-applies the add-feature protocol
+- [`skills/rescue/SKILL.md`](skills/rescue/SKILL.md) - Claude Code skill that auto-applies the rescue protocol
+- [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) - plugin manifest
+- [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) - marketplace manifest (this repo is its own marketplace)
 - [`METHOD.md`](METHOD.md) - the method explained, canonical reference
-- [`skill/SKILL.md`](skill/SKILL.md) - Claude Code skill (portable to other agents) that loads the method automatically
-- [`skill/README.md`](skill/README.md) - how to install the skill, including notes for non-Claude tools
 - [`examples/`](examples/) - case studies (in progress)
 - [`NOTES.md`](NOTES.md) - the toolkit's own decision log (dogfooded)
 

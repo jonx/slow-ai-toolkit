@@ -4,26 +4,32 @@ This is the toolkit's own NOTES.md, dogfooding the method the toolkit advocates.
 
 ## Architecture at a glance
 
-- Three top-level deliverables: the **method** (`METHOD.md`), the **prompts** (`prompts/`), the **skill** (`skill/`). The README is the entry point that sends readers to the right one.
-- `METHOD.md` is the canonical reference; `skill/SKILL.md` is a tighter agent-facing version of the same content; the prompt templates operationalize the method into paste-ready protocols.
+- Three top-level deliverables: the **method** (`METHOD.md`), the **prompts** (`prompts/`), the **skills** (`skills/`, bundled as a Claude Code plugin). The README is the entry point that sends readers to the right one.
+- `METHOD.md` is the canonical reference; each `skills/<name>/SKILL.md` is a tighter agent-facing version of the same content scoped to one scenario (bootstrap / add-feature / rescue); the prompt templates operationalize the method into paste-ready protocols for non-Claude tools.
 - `examples/` is reserved for case studies; currently empty (see "With more time" below).
-- The skill is consumed by Claude Code via `~/.claude/skills/slow-ai/` (symlink to `skill/`).
+- The skills are consumed by Claude Code via the plugin in `.claude-plugin/` (this repo is its own marketplace).
 
 ## Key decisions
 
-### Three artefacts (skill + method + prompts), not one
+### Three artefacts (skills + method + prompts), not one
 
-There's overlap between `METHOD.md`, `SKILL.md`, and the prompt headers. That overlap is intentional. Each artefact has a different consumer:
+There's overlap between `METHOD.md`, the `SKILL.md` files, and the prompt headers. That overlap is intentional. Each artefact has a different consumer:
 
-- **`SKILL.md`** is read by an agent at activation time. It must be self-contained because it's the only thing the agent sees when the trigger fires.
+- **`SKILL.md` files** are read by an agent at activation time. They must be self-contained because each one is the only thing the agent sees when its trigger fires.
 - **`METHOD.md`** is read by a human deciding whether to adopt the method. It has room for *why*, examples, and acknowledgement of edge cases.
 - **Prompt headers** are read by a human filling in a template. They're optimised for fillable fields, not for explanation.
 
 A single document optimised for all three audiences would serve none well.
 
-### Symlink the skill, don't copy
+### Three skills, not one method-loader
 
-The `skill/README.md` recommends `ln -s` over `cp`. The toolkit changes; copies stale silently. A symlink means an update to `skill/SKILL.md` in this repo flows immediately to every Claude Code session on the machine.
+The first version of this toolkit shipped a single `skill/SKILL.md` whose body was the method itself; the agent then suggested the right prompt template at runtime. That worked but had a seam: the user described their task, the skill loaded the method, and only then was a template proposed.
+
+Splitting into three trigger-specific skills (`bootstrap`, `add-feature`, `rescue`) collapses that into one step — the scenario-specific protocol fires directly. Each skill is heavier than the old single skill, but that's the right trade because there's now no "loaded but waiting" intermediate state.
+
+### Packaged as a Claude Code plugin, with a self-marketplace
+
+Previously the install instructions told users to `ln -s skill/ ~/.claude/skills/slow-ai`. That worked but didn't survive `/plugin update`, didn't version, and didn't compose with the marketplace ecosystem. Repackaged as a plugin with its own `.claude-plugin/marketplace.json` so the install path is `/plugin marketplace add github:jonx/slow-ai-toolkit` followed by `/plugin install slow-ai-toolkit@slow-ai`. The marketplace lives in the same repo as the plugin (one-plugin marketplace) — if/when there are more plugins, they go under `./plugins/<name>/` with the marketplace pointing to them.
 
 ### Templates are intentionally verbose
 
@@ -41,11 +47,11 @@ The project's working name was "AI-Assisted Build Prompts," accurate but flat. R
 
 ### Multi-agent story moved to the README
 
-Previously the "this works in non-Claude tools too" framing was one paragraph in `skill/README.md`. The method is genuinely tool-portable — burying that on a sub-page understated it. Front-page section "Using this with any agent" now lists concrete adoption notes per tool (Cursor, Aider, Continue, Cline, plain web chats). The skill packaging targets Claude Code; the prompts and method don't depend on it.
+Previously the "this works in non-Claude tools too" framing was one paragraph in `skill/README.md` (now deleted as part of the plugin restructure). The method is genuinely tool-portable — burying that on a sub-page understated it. Front-page section "Using this with any agent" now lists concrete adoption notes per tool (Cursor, Aider, Continue, Cline, plain web chats). The plugin packaging targets Claude Code; the prompts and method don't depend on it.
 
 ### File-size guidance softened: indicative, not hard
 
-Earlier drafts had ~200 lines as a "hard ceiling unless defensible." In practice some files genuinely belong oversized — generated parsers, state machines, config tables — and a hard rule produces either contortions to dodge it or quiet rule-breaking. Reframed across `README.md`, `METHOD.md`, `skill/SKILL.md`, and `prompts/bootstrap.md`: ~200 lines is the prompt to *notice* (probably doing more than one thing), ~800 is where the size needs explicit defense, neither is a hard cap. The discipline is the noticing, not the number.
+Earlier drafts had ~200 lines as a "hard ceiling unless defensible." In practice some files genuinely belong oversized — generated parsers, state machines, config tables — and a hard rule produces either contortions to dodge it or quiet rule-breaking. Reframed across `README.md`, `METHOD.md`, the skill files, and `prompts/bootstrap.md`: ~200 lines is the prompt to *notice* (probably doing more than one thing), ~800 is where the size needs explicit defense, neither is a hard cap. The discipline is the noticing, not the number.
 
 ### AI-disclosure form is per-user — verify, don't default
 

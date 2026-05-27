@@ -1,6 +1,6 @@
 # The Slow AI Method
 
-This is the canonical reference. The skill in [`skill/SKILL.md`](skill/SKILL.md) is the agent-facing condensed version; the prompt templates in [`prompts/`](prompts/) are the paste-ready operationalization. This file is the *why*.
+This is the canonical reference. The skills in [`skills/`](skills/) are the agent-facing condensed versions (one per scenario); the prompt templates in [`prompts/`](prompts/) are the paste-ready operationalization for non-Claude tools. This file is the *why*.
 
 ## What it is
 
@@ -139,4 +139,4 @@ If you're new to the method:
 1. This file.
 2. [`README.md`](README.md) — toolkit overview, narrative.
 3. The template that fits your current task.
-4. [`skill/SKILL.md`](skill/SKILL.md) only if you're installing the skill into Claude Code or another agent runtime.
+4. [`skills/`](skills/) only if you're installing the plugin into Claude Code or adapting a skill body for another agent runtime.
