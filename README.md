@@ -16,17 +16,35 @@ The method is agent-agnostic. The plugin packaging targets [Claude Code](https:/
 
 ## Install (Claude Code)
 
-This repo ships as a Claude Code plugin that bundles three skills (`bootstrap`, `add-feature`, `rescue`) and includes its own marketplace manifest.
+This repo ships as a Claude Code plugin that bundles three skills (`bootstrap`, `add-feature`, `rescue`) and includes its own marketplace manifest. Install from your terminal:
 
 ```sh
-# Add the marketplace, then install the plugin
-/plugin marketplace add github:jonx/slow-ai-toolkit
-/plugin install slow-ai-toolkit@slow-ai
+claude plugin marketplace add jonx/slow-ai-toolkit
+claude plugin install slow-ai-toolkit@slow-ai
 ```
 
-Once installed, the right skill auto-activates when you describe what you're doing — "help me build a CLI", "add a feature to this app", "rescue this codebase" — and walks you through the protocol before any code is written.
+That's it. The plugin lands in `~/.claude/plugins/cache/` and is available in every Claude Code surface that shares your user config — terminal CLI, desktop app, VS Code / JetBrains extensions.
 
-You can also invoke a skill explicitly:
+> Inside an interactive Claude Code session you can also use the slash-command form: `/plugin marketplace add jonx/slow-ai-toolkit` then `/plugin install slow-ai-toolkit@slow-ai`. Same effect.
+
+### Triggering a skill
+
+Once installed, there are two ways to invoke a skill — pick whichever feels natural.
+
+**Implicit (recommended).** Just describe what you're doing in any Claude Code session. The matching skill auto-activates from the trigger phrases in its description:
+
+| What you type | Skill that fires |
+|---|---|
+| *"help me build a CLI that converts CSV to JSON"* | `bootstrap` |
+| *"I'm starting a take-home for company X, here's the brief…"* | `bootstrap` |
+| *"add a dark mode toggle to my app"* | `add-feature` |
+| *"extend this service to support webhooks"* | `add-feature` |
+| *"this codebase is a mess, help me clean it up"* | `rescue` |
+| *"I inherited this project and can't reason about it"* | `rescue` |
+
+The agent then asks you the context questions and walks the four-gate planning protocol before any code is written.
+
+**Explicit.** If you want to force a specific skill, invoke it by name. Plugin skills are namespaced as `/<plugin-name>:<skill-name>`:
 
 ```
 /slow-ai-toolkit:bootstrap
@@ -34,7 +52,16 @@ You can also invoke a skill explicitly:
 /slow-ai-toolkit:rescue
 ```
 
-To update later: `/plugin update`. To uninstall: `/plugin uninstall slow-ai-toolkit@slow-ai`.
+### Discover, update, uninstall
+
+```sh
+claude plugin list                              # see what's installed
+claude plugin update                            # pull latest from the marketplace
+claude plugin uninstall slow-ai-toolkit@slow-ai # remove the plugin
+claude plugin marketplace remove slow-ai        # forget the marketplace too
+```
+
+Inside a session, `/help` lists everything available including skills and `/plugin` opens an interactive management UI.
 
 ## When to use which
 
