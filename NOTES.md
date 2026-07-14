@@ -57,6 +57,14 @@ Earlier drafts had ~200 lines as a "hard ceiling unless defensible." In practice
 
 The toolkit advocates AI disclosure (see README "A note on AI disclosure"). The *form* of disclosure (commit `Co-Authored-By:` trailers, README notes, PR descriptions, in-line comments) is a personal preference that varies by individual, team, audience, and even repo. Future agent sessions working on this repo, or on any repo where the user is using this method, should ASK the human before adding such trailers — never default them in. The initial commit on this repo deliberately omits the trailer for that reason.
 
+### v0.2.0 — "Eyes before hands" promoted to a core principle
+
+The method's step 5 (Test) silently assumed textual feedback — linter output, test results. For visual, interactive, or long-running artifacts the agent was structurally blind: it could only *assert* success, not *observe* it. The fix is a new principle and skill (`give-eyes`): before feature work, build a harness that lets the agent see the artifact (headless screenshots, framebuffer dumps, serial logs) and drive it like a puppeteer (programmatic input). Verdicts must cite observation artifacts from then on. This closes the loop that "verification before design" opened for SDKs: same failure mode (confident, unverified claims), applied to runtime behavior instead of API signatures. The harness is a deliverable that lives in the repo and outlives the session.
+
+### v0.2.0 — Four cross-cutting skills alongside the lifecycle three
+
+Bootstrap / add-feature / rescue cover *producing* code but nothing else a developer's week contains. Added `code-review` (judge without modifying; seven named dimensions, severity-graded evidence-cited findings — replaces the vague "review for speed and robustness" brief), `docs-refresh` (verify docs against code, rewrite around what/where-going/where-now, project-not-journey), and `walkthrough` (the one already promised in "With more time" below — pre-demo rehearsal). The lifecycle/cross-cutting split is explicit in the README: review feeds rescue as its rot list; give-eyes runs as chunk zero; walkthrough is the payoff of the NOTES.md discipline.
+
 ## Trade-offs made under time pressure
 
 - `examples/` is empty at first publish. Decided to ship the toolkit without a case study rather than block on writing one. Risk: readers without prior context for the method may find it abstract. Placeholder `examples/README.md` notes the gap publicly.
@@ -66,7 +74,6 @@ The toolkit advocates AI disclosure (see README "A note on AI disclosure"). The 
 
 - Write a worked case-study example under `examples/` — bootstrap → ship → walkthrough — as the strongest argument for the method.
 - Add an "exit criteria" section to `prompts/bootstrap.md` even at project-start time, framed as "you'll fill this in when scope solidifies; here's the slot."
-- Add a `prompts/walkthrough.md` template — a fourth prompt for the moment when you're about to demo a finished project to a reviewer. Asks the agent to enumerate weak points, surprises, and likely questions. Makes the walkthrough rehearsal mechanical instead of vibey.
 - Expand the forbidden-patterns list in `METHOD.md` with language- or framework-specific entries (Flutter, React, Rust, etc.). Currently the list is generic.
 - Add a short rationale to each "default to refuse" entry. The current list says *what* to refuse but not always *why* it tends to be wrong. A reviewer encountering "no Riverpod" will want to know.
 - Address the team-codebase cases the method understates: how `NOTES.md` interacts with PR descriptions and commit messages on a team (probably: NOTES.md is for cross-cutting context, commits/PRs for change-specific rationale), and how the four gates scale on a 50-file feature.

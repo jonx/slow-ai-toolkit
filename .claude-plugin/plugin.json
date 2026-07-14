@@ -1,7 +1,7 @@
 {
   "name": "slow-ai-toolkit",
-  "version": "0.1.0",
-  "description": "The Slow AI working method: verify, plan, approve, implement, test, note, move on. Three skills for the three scenarios — bootstrap, add-feature, rescue.",
+  "version": "0.2.0",
+  "description": "The Slow AI working method: verify, plan, approve, implement, test, note, move on. Seven skills: bootstrap, add-feature, rescue for the build lifecycle; give-eyes, code-review, docs-refresh, walkthrough cross-cutting.",
   "author": {
     "name": "jonx"
   },
@@ -14,6 +14,9 @@
     "agentic-coding",
     "discipline",
     "code-review",
-    "defensible-code"
+    "defensible-code",
+    "observability",
+    "code-review-skill",
+    "documentation"
   ]
 }

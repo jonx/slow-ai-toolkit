@@ -16,7 +16,7 @@ The method is agent-agnostic. The plugin packaging targets [Claude Code](https:/
 
 ## Install (Claude Code)
 
-This repo ships as a Claude Code plugin that bundles three skills (`bootstrap`, `add-feature`, `rescue`) and includes its own marketplace manifest. Install from your terminal:
+This repo ships as a Claude Code plugin that bundles seven skills — three for the build lifecycle (`bootstrap`, `add-feature`, `rescue`) and four cross-cutting ones (`give-eyes`, `code-review`, `docs-refresh`, `walkthrough`) — and includes its own marketplace manifest. Install from your terminal:
 
 ```sh
 claude plugin marketplace add jonx/slow-ai-toolkit
@@ -41,6 +41,14 @@ Once installed, there are two ways to invoke a skill — pick whichever feels na
 | *"extend this service to support webhooks"* | `add-feature` |
 | *"this codebase is a mess, help me clean it up"* | `rescue` |
 | *"I inherited this project and can't reason about it"* | `rescue` |
+| *"give yourself eyes — headless screenshots, and drive it like a puppeteer"* | `give-eyes` |
+| *"you need to be able to see what you're doing before we build"* | `give-eyes` |
+| *"review this project for speed and robustness"* | `code-review` |
+| *"how healthy is this codebase before I ship it?"* | `code-review` |
+| *"rewrite the readme — what it's about, where it's going, where it is now"* | `docs-refresh` |
+| *"the docs are out of date, bring them in line with the code"* | `docs-refresh` |
+| *"I'm demoing this tomorrow, prep me for the questions"* | `walkthrough` |
+| *"rehearse the code review with me"* | `walkthrough` |
 
 The agent then asks you the context questions and walks the four-gate planning protocol before any code is written.
 
@@ -50,6 +58,10 @@ The agent then asks you the context questions and walks the four-gate planning p
 /slow-ai-toolkit:bootstrap
 /slow-ai-toolkit:add-feature
 /slow-ai-toolkit:rescue
+/slow-ai-toolkit:give-eyes
+/slow-ai-toolkit:code-review
+/slow-ai-toolkit:docs-refresh
+/slow-ai-toolkit:walkthrough
 ```
 
 ### Discover, update, uninstall
@@ -65,13 +77,22 @@ Inside a session, `/help` lists everything available including skills and `/plug
 
 ## When to use which
 
-Three templates, three situations:
+The build lifecycle — three templates, three situations:
 
 - **[`prompts/bootstrap.md`](prompts/bootstrap.md)** - starting a new project from scratch
 - **[`prompts/add-feature.md`](prompts/add-feature.md)** - adding to an existing project that's already in good shape
 - **[`prompts/rescue.md`](prompts/rescue.md)** - bringing a messy or unfamiliar project back to a defensible state
 
 They share a method but differ in where they start. The bootstrap assumes nothing exists. The add-feature assumes the existing code is healthy and consistent. The rescue assumes neither.
+
+Cross-cutting — four templates that apply at specific moments regardless of lifecycle stage:
+
+- **[`prompts/give-eyes.md`](prompts/give-eyes.md)** - before feature work on anything visual or interactive: build the agent an observation harness (headless screenshots + programmatic input) so its verdicts cite evidence, not vibes
+- **[`prompts/code-review.md`](prompts/code-review.md)** - judge an existing codebase across seven named dimensions; report, don't repair
+- **[`prompts/docs-refresh.md`](prompts/docs-refresh.md)** - bring README and docs back in line with the code; project, not journey
+- **[`prompts/walkthrough.md`](prompts/walkthrough.md)** - pre-demo rehearsal: weak points, likely questions, honest answers
+
+`give-eyes` typically runs immediately after `bootstrap` (or as chunk zero of a `rescue`). `code-review` feeds `rescue` — its report becomes the rot list. `walkthrough` is the payoff of the NOTES.md discipline.
 
 ## The method, in one paragraph
 
@@ -126,6 +147,8 @@ For projects you don't fully trust. The agent inventories what's actually there,
 ## Cross-cutting principles
 
 Things every template enforces, worth understanding regardless of which one you're using.
+
+**Eyes before hands.** For any project whose output is visual, interactive, or long-running, the first chunk is an observation harness: a scriptable way for the agent to *see* the running artifact (headless screenshots, framebuffer dumps, console logs) and *drive* it like a puppeteer (programmatic clicks, keystrokes, serial input). From then on, "done" verdicts must cite an observation artifact — a screenshot path, a log line — never a bare assertion. The harness lives in the repo and outlives the session. Full rationale in [`METHOD.md`](METHOD.md).
 
 **Verification before design.** If the agent is going to use an SDK, framework, or library feature it hasn't recently verified, it reads the source first and confirms exact signatures. Generated code that pattern-matches "what an API like this usually looks like" is the single biggest source of debug time later.
 
@@ -203,9 +226,17 @@ The discipline travels. The packaging is a convenience.
 - [`prompts/bootstrap.md`](prompts/bootstrap.md) - new project, blank slate (paste-anywhere template)
 - [`prompts/add-feature.md`](prompts/add-feature.md) - new feature, healthy host project (paste-anywhere template)
 - [`prompts/rescue.md`](prompts/rescue.md) - existing project, unknown or messy state (paste-anywhere template)
+- [`prompts/give-eyes.md`](prompts/give-eyes.md) - observation harness before feature work (paste-anywhere template)
+- [`prompts/code-review.md`](prompts/code-review.md) - structured review, report-only (paste-anywhere template)
+- [`prompts/docs-refresh.md`](prompts/docs-refresh.md) - README/docs realignment (paste-anywhere template)
+- [`prompts/walkthrough.md`](prompts/walkthrough.md) - demo and review rehearsal (paste-anywhere template)
 - [`skills/bootstrap/SKILL.md`](skills/bootstrap/SKILL.md) - Claude Code skill that auto-applies the bootstrap protocol
 - [`skills/add-feature/SKILL.md`](skills/add-feature/SKILL.md) - Claude Code skill that auto-applies the add-feature protocol
 - [`skills/rescue/SKILL.md`](skills/rescue/SKILL.md) - Claude Code skill that auto-applies the rescue protocol
+- [`skills/give-eyes/SKILL.md`](skills/give-eyes/SKILL.md) - Claude Code skill for building the observation harness first
+- [`skills/code-review/SKILL.md`](skills/code-review/SKILL.md) - Claude Code skill for structured seven-dimension code review
+- [`skills/docs-refresh/SKILL.md`](skills/docs-refresh/SKILL.md) - Claude Code skill for truth-verified, journey-free documentation
+- [`skills/walkthrough/SKILL.md`](skills/walkthrough/SKILL.md) - Claude Code skill for pre-demo rehearsal and Q&A prep
 - [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) - plugin manifest
 - [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) - marketplace manifest (this repo is its own marketplace)
 - [`METHOD.md`](METHOD.md) - the method explained, canonical reference
