@@ -16,7 +16,7 @@ The method is agent-agnostic. The plugin packaging targets [Claude Code](https:/
 
 ## Install (Claude Code)
 
-This repo ships as a Claude Code plugin that bundles seven skills — three for the build lifecycle (`bootstrap`, `add-feature`, `rescue`) and four cross-cutting ones (`give-eyes`, `code-review`, `docs-refresh`, `walkthrough`) — and includes its own marketplace manifest. Install from your terminal:
+This repo ships as a Claude Code plugin that bundles eight skills — three for the build lifecycle (`bootstrap`, `add-feature`, `rescue`) and five cross-cutting ones (`give-eyes`, `code-review`, `docs-refresh`, `walkthrough`, `deaiify`) — and includes its own marketplace manifest. Install from your terminal:
 
 ```sh
 claude plugin marketplace add jonx/slow-ai-toolkit
@@ -49,6 +49,8 @@ Once installed, there are two ways to invoke a skill — pick whichever feels na
 | *"the docs are out of date, bring them in line with the code"* | `docs-refresh` |
 | *"I'm demoing this tomorrow, prep me for the questions"* | `walkthrough` |
 | *"rehearse the code review with me"* | `walkthrough` |
+| *"de-AI-ify this before I publish it"* | `deaiify` |
+| *"strip the em dashes and curly quotes, make it read hand-written"* | `deaiify` |
 
 The agent then asks you the context questions and walks the four-gate planning protocol before any code is written.
 
@@ -62,6 +64,7 @@ The agent then asks you the context questions and walks the four-gate planning p
 /slow-ai-toolkit:code-review
 /slow-ai-toolkit:docs-refresh
 /slow-ai-toolkit:walkthrough
+/slow-ai-toolkit:deaiify
 ```
 
 ### Discover, update, uninstall
@@ -85,12 +88,13 @@ The build lifecycle — three templates, three situations:
 
 They share a method but differ in where they start. The bootstrap assumes nothing exists. The add-feature assumes the existing code is healthy and consistent. The rescue assumes neither.
 
-Cross-cutting — four templates that apply at specific moments regardless of lifecycle stage:
+Cross-cutting — five templates that apply at specific moments regardless of lifecycle stage:
 
 - **[`prompts/give-eyes.md`](prompts/give-eyes.md)** - before feature work on anything visual or interactive: build the agent an observation harness (headless screenshots + programmatic input) so its verdicts cite evidence, not vibes
 - **[`prompts/code-review.md`](prompts/code-review.md)** - judge an existing codebase across seven named dimensions; report, don't repair
 - **[`prompts/docs-refresh.md`](prompts/docs-refresh.md)** - bring README and docs back in line with the code; project, not journey
 - **[`prompts/walkthrough.md`](prompts/walkthrough.md)** - pre-demo rehearsal: weak points, likely questions, honest answers
+- **[`prompts/deaiify.md`](prompts/deaiify.md)** - strip AI-tell typography (em dashes, curly quotes, invisible spaces) so published prose reads hand-authored; then keep writing clean from the start
 
 `give-eyes` typically runs immediately after `bootstrap` (or as chunk zero of a `rescue`). `code-review` feeds `rescue` — its report becomes the rot list. `walkthrough` is the payoff of the NOTES.md discipline.
 
@@ -230,6 +234,7 @@ The discipline travels. The packaging is a convenience.
 - [`prompts/code-review.md`](prompts/code-review.md) - structured review, report-only (paste-anywhere template)
 - [`prompts/docs-refresh.md`](prompts/docs-refresh.md) - README/docs realignment (paste-anywhere template)
 - [`prompts/walkthrough.md`](prompts/walkthrough.md) - demo and review rehearsal (paste-anywhere template)
+- [`prompts/deaiify.md`](prompts/deaiify.md) - AI-tell typography cleanup (paste-anywhere template)
 - [`skills/bootstrap/SKILL.md`](skills/bootstrap/SKILL.md) - Claude Code skill that auto-applies the bootstrap protocol
 - [`skills/add-feature/SKILL.md`](skills/add-feature/SKILL.md) - Claude Code skill that auto-applies the add-feature protocol
 - [`skills/rescue/SKILL.md`](skills/rescue/SKILL.md) - Claude Code skill that auto-applies the rescue protocol
@@ -237,6 +242,7 @@ The discipline travels. The packaging is a convenience.
 - [`skills/code-review/SKILL.md`](skills/code-review/SKILL.md) - Claude Code skill for structured seven-dimension code review
 - [`skills/docs-refresh/SKILL.md`](skills/docs-refresh/SKILL.md) - Claude Code skill for truth-verified, journey-free documentation
 - [`skills/walkthrough/SKILL.md`](skills/walkthrough/SKILL.md) - Claude Code skill for pre-demo rehearsal and Q&A prep
+- [`skills/deaiify/SKILL.md`](skills/deaiify/SKILL.md) - Claude Code skill (plus deterministic helper script) for AI-tell typography cleanup
 - [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) - plugin manifest
 - [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) - marketplace manifest (this repo is its own marketplace)
 - [`METHOD.md`](METHOD.md) - the method explained, canonical reference

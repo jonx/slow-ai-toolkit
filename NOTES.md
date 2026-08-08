@@ -65,6 +65,10 @@ The method's step 5 (Test) silently assumed textual feedback — linter output, 
 
 Bootstrap / add-feature / rescue cover *producing* code but nothing else a developer's week contains. Added `code-review` (judge without modifying; seven named dimensions, severity-graded evidence-cited findings — replaces the vague "review for speed and robustness" brief), `docs-refresh` (verify docs against code, rewrite around what/where-going/where-now, project-not-journey), and `walkthrough` (the one already promised in "With more time" below — pre-demo rehearsal). The lifecycle/cross-cutting split is explicit in the README: review feeds rescue as its rot list; give-eyes runs as chunk zero; walkthrough is the payoff of the NOTES.md discipline.
 
+### v0.3.0 — deaiify: authorship hygiene as a skill
+
+Extracted from a private site repo where it proved itself, then generalized. The method's core claim is that you should be able to *defend* everything you ship; prose is part of what ships, and a handful of characters (em dashes, curly quotes, the one-character ellipsis, invisible spaces) read as machine-written precisely because almost nobody can type them. The skill strips them mechanically and flags tildes for manual rewording (the fix is semantic: `~40 MB` → `about 40 MB`). Two deliberate properties: the helper script is dumb-deterministic (straight character swaps, no LLM rewriting, so the diff is reviewable character-by-character), and the skill carries a standing rule to *generate* clean text from the start — cleanup that stays empty is the success state. Keep-lists protect intentional design glyphs and accented letters: a stripped `é` is a spelling error, not a cleanup.
+
 ## Trade-offs made under time pressure
 
 - `examples/` is empty at first publish. Decided to ship the toolkit without a case study rather than block on writing one. Risk: readers without prior context for the method may find it abstract. Placeholder `examples/README.md` notes the gap publicly.
