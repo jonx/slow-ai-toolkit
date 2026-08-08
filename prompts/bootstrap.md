@@ -31,7 +31,7 @@ The architecture should leave seams for these (data model fields, service bounda
 - **Stack / language:** [versions, frameworks]
 - **State management / architecture pattern:** [be specific - e.g. "plain ChangeNotifier, NO Riverpod/BLoC/Provider/GetX"]
 - **Architectural style:** [e.g. "simple layering. No Clean Architecture, no hexagonal ports-and-adapters, no repository pattern unless strictly needed"]
-- **File size guidance:** [e.g. "single-purpose; ~200 lines is a soft signal to consider splitting, ~800 needs a clear reason — neither is a hard cap"]
+- **File size guidance:** [e.g. "single-purpose; around 200 lines is a soft signal to consider splitting, around 800 needs a clear reason - neither is a hard cap"]
 - **Comment style:** [e.g. "explain WHY not WHAT, senior-engineer level, no boilerplate"]
 - **Dependencies:** [allowed / forbidden / approval-required]
 - **Performance / optimization:** [e.g. "no premature optimization until naive version works"]

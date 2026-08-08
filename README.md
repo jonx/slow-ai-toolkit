@@ -1,6 +1,6 @@
 # Slow AI Toolkit
 
-A working method and a small set of prompt templates for using AI coding agents on serious work — code that gets reviewed, shipped, maintained, or walked through. The shape: verify, plan, approve, implement, test, note, move on. Defend scope at every gate.
+A working method and a small set of prompt templates for using AI coding agents on serious work - code that gets reviewed, shipped, maintained, or walked through. The shape: verify, plan, approve, implement, test, note, move on. Defend scope at every gate.
 
 Tested on take-homes, client demos, side projects, and production codebases. The discipline that works for a 200-line interview project also works for a feature added to a codebase a team will touch six months from now.
 
@@ -12,40 +12,40 @@ Full rationale in [`METHOD.md`](METHOD.md).
 
 ## Agent-agnostic
 
-The method is agent-agnostic. The plugin packaging targets [Claude Code](https://claude.com/claude-code), but the prompts and method paste cleanly into Cursor, Aider, Continue, Cline, plain ChatGPT, Claude.ai web — anything that takes natural-language input. See [Using this with any agent](#using-this-with-any-agent) below.
+The method is agent-agnostic. The plugin packaging targets [Claude Code](https://claude.com/claude-code), but the prompts and method paste cleanly into Cursor, Aider, Continue, Cline, plain ChatGPT, Claude.ai web - anything that takes natural-language input. See [Using this with any agent](#using-this-with-any-agent) below.
 
 ## Install (Claude Code)
 
-This repo ships as a Claude Code plugin that bundles eight skills — three for the build lifecycle (`bootstrap`, `add-feature`, `rescue`) and five cross-cutting ones (`give-eyes`, `code-review`, `docs-refresh`, `walkthrough`, `deaiify`) — and includes its own marketplace manifest. Install from your terminal:
+This repo ships as a Claude Code plugin that bundles eight skills - three for the build lifecycle (`bootstrap`, `add-feature`, `rescue`) and five cross-cutting ones (`give-eyes`, `code-review`, `docs-refresh`, `walkthrough`, `deaiify`) - and includes its own marketplace manifest. Install from your terminal:
 
 ```sh
 claude plugin marketplace add jonx/slow-ai-toolkit
 claude plugin install slow-ai-toolkit@slow-ai
 ```
 
-That's it. The plugin lands in `~/.claude/plugins/cache/` and is available in every Claude Code surface that shares your user config — terminal CLI, desktop app, VS Code / JetBrains extensions.
+That's it. The plugin lands in `~/.claude/plugins/cache/` and is available in every Claude Code surface that shares your user config - terminal CLI, desktop app, VS Code / JetBrains extensions.
 
 > Inside an interactive Claude Code session you can also use the slash-command form: `/plugin marketplace add jonx/slow-ai-toolkit` then `/plugin install slow-ai-toolkit@slow-ai`. Same effect.
 
 ### Triggering a skill
 
-Once installed, there are two ways to invoke a skill — pick whichever feels natural.
+Once installed, there are two ways to invoke a skill - pick whichever feels natural.
 
 **Implicit (recommended).** Just describe what you're doing in any Claude Code session. The matching skill auto-activates from the trigger phrases in its description:
 
 | What you type | Skill that fires |
 |---|---|
 | *"help me build a CLI that converts CSV to JSON"* | `bootstrap` |
-| *"I'm starting a take-home for company X, here's the brief…"* | `bootstrap` |
+| *"I'm starting a take-home for company X, here's the brief..."* | `bootstrap` |
 | *"add a dark mode toggle to my app"* | `add-feature` |
 | *"extend this service to support webhooks"* | `add-feature` |
 | *"this codebase is a mess, help me clean it up"* | `rescue` |
 | *"I inherited this project and can't reason about it"* | `rescue` |
-| *"give yourself eyes — headless screenshots, and drive it like a puppeteer"* | `give-eyes` |
+| *"give yourself eyes - headless screenshots, and drive it like a puppeteer"* | `give-eyes` |
 | *"you need to be able to see what you're doing before we build"* | `give-eyes` |
 | *"review this project for speed and robustness"* | `code-review` |
 | *"how healthy is this codebase before I ship it?"* | `code-review` |
-| *"rewrite the readme — what it's about, where it's going, where it is now"* | `docs-refresh` |
+| *"rewrite the readme - what it's about, where it's going, where it is now"* | `docs-refresh` |
 | *"the docs are out of date, bring them in line with the code"* | `docs-refresh` |
 | *"I'm demoing this tomorrow, prep me for the questions"* | `walkthrough` |
 | *"rehearse the code review with me"* | `walkthrough` |
@@ -80,7 +80,7 @@ Inside a session, `/help` lists everything available including skills and `/plug
 
 ## When to use which
 
-The build lifecycle — three templates, three situations:
+The build lifecycle - three templates, three situations:
 
 - **[`prompts/bootstrap.md`](prompts/bootstrap.md)** - starting a new project from scratch
 - **[`prompts/add-feature.md`](prompts/add-feature.md)** - adding to an existing project that's already in good shape
@@ -88,7 +88,7 @@ The build lifecycle — three templates, three situations:
 
 They share a method but differ in where they start. The bootstrap assumes nothing exists. The add-feature assumes the existing code is healthy and consistent. The rescue assumes neither.
 
-Cross-cutting — five templates that apply at specific moments regardless of lifecycle stage:
+Cross-cutting - five templates that apply at specific moments regardless of lifecycle stage:
 
 - **[`prompts/give-eyes.md`](prompts/give-eyes.md)** - before feature work on anything visual or interactive: build the agent an observation harness (headless screenshots + programmatic input) so its verdicts cite evidence, not vibes
 - **[`prompts/code-review.md`](prompts/code-review.md)** - judge an existing codebase across seven named dimensions; report, don't repair
@@ -96,7 +96,7 @@ Cross-cutting — five templates that apply at specific moments regardless of li
 - **[`prompts/walkthrough.md`](prompts/walkthrough.md)** - pre-demo rehearsal: weak points, likely questions, honest answers
 - **[`prompts/deaiify.md`](prompts/deaiify.md)** - strip AI-tell typography (em dashes, curly quotes, invisible spaces) so published prose reads hand-authored; then keep writing clean from the start
 
-`give-eyes` typically runs immediately after `bootstrap` (or as chunk zero of a `rescue`). `code-review` feeds `rescue` — its report becomes the rot list. `walkthrough` is the payoff of the NOTES.md discipline.
+`give-eyes` typically runs immediately after `bootstrap` (or as chunk zero of a `rescue`). `code-review` feeds `rescue` - its report becomes the rot list. `walkthrough` is the payoff of the NOTES.md discipline.
 
 ## The method, in one paragraph
 
@@ -152,7 +152,7 @@ For projects you don't fully trust. The agent inventories what's actually there,
 
 Things every template enforces, worth understanding regardless of which one you're using.
 
-**Eyes before hands.** For any project whose output is visual, interactive, or long-running, the first chunk is an observation harness: a scriptable way for the agent to *see* the running artifact (headless screenshots, framebuffer dumps, console logs) and *drive* it like a puppeteer (programmatic clicks, keystrokes, serial input). From then on, "done" verdicts must cite an observation artifact — a screenshot path, a log line — never a bare assertion. The harness lives in the repo and outlives the session. Full rationale in [`METHOD.md`](METHOD.md).
+**Eyes before hands.** For any project whose output is visual, interactive, or long-running, the first chunk is an observation harness: a scriptable way for the agent to *see* the running artifact (headless screenshots, framebuffer dumps, console logs) and *drive* it like a puppeteer (programmatic clicks, keystrokes, serial input). From then on, "done" verdicts must cite an observation artifact - a screenshot path, a log line - never a bare assertion. The harness lives in the repo and outlives the session. Full rationale in [`METHOD.md`](METHOD.md).
 
 **Verification before design.** If the agent is going to use an SDK, framework, or library feature it hasn't recently verified, it reads the source first and confirms exact signatures. Generated code that pattern-matches "what an API like this usually looks like" is the single biggest source of debug time later.
 
@@ -160,7 +160,7 @@ Things every template enforces, worth understanding regardless of which one you'
 
 **Forbidden patterns lists.** Each template encourages explicit "do not use" rules. Without them, agents reach for whatever was popular in their training data, which is usually overengineered for what you actually need. Forbidding patterns is more useful than recommending them.
 
-**File size discipline.** ~200 lines is the indicative point where a file is probably doing more than one thing — worth pausing to ask whether to split. ~800 lines is the point where the size needs an explicit defense. Neither is a hard rule: generated parsers, state machines, and config tables sometimes legitimately exceed both. The discipline is *noticing* the size and either justifying it or splitting, not hitting a number.
+**File size discipline.** Around 200 lines is the indicative point where a file is probably doing more than one thing - worth pausing to ask whether to split. Around 800 lines is the point where the size needs an explicit defense. Neither is a hard rule: generated parsers, state machines, and config tables sometimes legitimately exceed both. The discipline is *noticing* the size and either justifying it or splitting, not hitting a number.
 
 **Match the project, not your preferences.** When working in an existing codebase, consistency with what's there beats consistency with the agent's defaults. A codebase with one pattern done acceptably is more maintainable than a codebase with three patterns each done well.
 

@@ -3,52 +3,52 @@ name: rescue
 description: Apply the Slow AI rescue protocol when the user has an existing project in unknown, messy, or untrusted state and wants to bring it back to a defensible state before adding features, shipping, handing off, or interviewing on it. Use when they say "rescue this codebase", "clean up this project", "this got vibe-coded and I can't reason about it", "I inherited this", "this works but I can't defend it", "multiple LLM sessions accreted inconsistent patterns", or similar. The protocol inventories, runs the linter, identifies the rot AND the load-bearing parts, then proposes a triaged remediation plan with explicit "won't fix" items.
 ---
 
-# Slow AI — Rescue
+# Slow AI - Rescue
 
 You are applying the **Slow AI** working method to rescue a project that's in unknown or messy state.
 
-The principle: every line of generated code should be a line the user would stand by, line by line, in a code review or interview. For a rescue, that means an honest inventory before any change — and explicit "won't fix" items rather than silent acceptance.
+The principle: every line of generated code should be a line the user would stand by, line by line, in a code review or interview. For a rescue, that means an honest inventory before any change - and explicit "won't fix" items rather than silent acceptance.
 
-Do not write or modify any code until you have walked through Steps 1–6 below and the user has explicitly said "go fix."
+Do not write or modify any code until you have walked through Steps 1-6 below and the user has explicitly said "go fix."
 
-## Step 0 — Gather context
+## Step 0 - Gather context
 
 If not already provided, ask for these as a single grouped question:
 
-- **Project** — name + one-line description
-- **Where it lives** — path / repo
-- **Why it needs rescuing** — pick all that apply:
+- **Project** - name + one-line description
+- **Where it lives** - path / repo
+- **Why it needs rescuing** - pick all that apply:
   - Vibe-coded without architectural direction, now hard to reason about
   - Inherited from someone else
   - Multiple LLM sessions accreted inconsistent patterns
   - Works but the user can't defend it in a walkthrough
   - Doesn't work and the user doesn't know why
   - User lost the thread on what's actually in it
-- **Current state** — does it run? does it pass linting? does it have tests? known broken features?
-- **Time budget** — hours, realistic
-- **Required outcome** — pick one:
-  - "Working and defensible" — walk through with someone
-  - "Working and shippable" — ship it
-  - "Working and extendable" — add features without making it worse
-  - "Just working" — runs and does what it claims
-- **Reference materials** — any README, NOTES, design docs, original brief, prior conversation logs
-- **What the user thinks is in the project** — best guess at stack, architecture, working features, suspected breakages, things to keep no matter what, things they'd happily delete
+- **Current state** - does it run? does it pass linting? does it have tests? known broken features?
+- **Time budget** - hours, realistic
+- **Required outcome** - pick one:
+  - "Working and defensible" - walk through with someone
+  - "Working and shippable" - ship it
+  - "Working and extendable" - add features without making it worse
+  - "Just working" - runs and does what it claims
+- **Reference materials** - any README, NOTES, design docs, original brief, prior conversation logs
+- **What the user thinks is in the project** - best guess at stack, architecture, working features, suspected breakages, things to keep no matter what, things they'd happily delete
 
 The user's last bullet is honest guesswork; your Step 1 will verify or contradict it.
 
-## Step 1 — Inventory the project
+## Step 1 - Inventory the project
 
 View the project root. Read README, NOTES.md, package manifests, any obvious entry-point file, and the directory tree at depth 2. Produce:
 
-- **File tree summary** — which directories hold what, with line counts per file. Flag any file over 300 lines as "needs scrutiny."
-- **Dependencies inventory** — every runtime dep, every dev dep, with a one-line purpose for each. Flag any that look unused, deprecated, or redundant.
-- **Entry points** — what runs first, what state initializes where.
-- **Apparent architectural pattern** — what shape did whoever built this seem to be aiming for? Be honest if it's inconsistent.
-- **Things that contradict the user's Step 0 description** — explicit list. Do not gloss over discrepancies.
+- **File tree summary** - which directories hold what, with line counts per file. Flag any file over 300 lines as "needs scrutiny."
+- **Dependencies inventory** - every runtime dep, every dev dep, with a one-line purpose for each. Flag any that look unused, deprecated, or redundant.
+- **Entry points** - what runs first, what state initializes where.
+- **Apparent architectural pattern** - what shape did whoever built this seem to be aiming for? Be honest if it's inconsistent.
+- **Things that contradict the user's Step 0 description** - explicit list. Do not gloss over discrepancies.
 
 Do NOT propose changes yet. Step 1 is just inventory.
 
-## Step 2 — Run the project as it stands
+## Step 2 - Run the project as it stands
 
 Identify the build/run/test/lint commands. Run them if possible; otherwise list them and tell the user what to look for. For each:
 
@@ -56,7 +56,7 @@ Identify the build/run/test/lint commands. Run them if possible; otherwise list 
 - If not, list every error and warning verbatim.
 - Categorize each as: (a) blocks the project from running, (b) blocks shipping but not running, (c) cosmetic.
 
-## Step 3 — Identify the rot
+## Step 3 - Identify the rot
 
 List, in priority order, the actual problems. Be specific. Look for:
 
@@ -75,23 +75,23 @@ List, in priority order, the actual problems. Be specific. Look for:
 
 For each item: where it is, why it's a problem, severity (blocker / serious / cosmetic).
 
-## Step 4 — Identify the load-bearing parts
+## Step 4 - Identify the load-bearing parts
 
-The opposite of Step 3. List the parts of this codebase that are working, sensible, and worth preserving — anything to defend rather than rewrite. This list is the floor we don't go below in Step 5.
+The opposite of Step 3. List the parts of this codebase that are working, sensible, and worth preserving - anything to defend rather than rewrite. This list is the floor we don't go below in Step 5.
 
-## Step 5 — Propose a triaged remediation plan
+## Step 5 - Propose a triaged remediation plan
 
 Given the time budget and required outcome:
 
-- **Must fix** — items from Step 3 that block the required outcome. For each: estimated effort, what changes, risk of breaking Step 4 items.
-- **Should fix** — non-blockers that materially improve defensibility. Same shape.
-- **Won't fix this session** — real problems that don't fit the budget. These go into `NOTES.md` as known issues, not silently ignored.
-- **Order of operations** — what to fix first, second, third. Justify the ordering (usually: unblockers first, safest fixes before riskier ones).
-- **Verification gates** — between fixes, how do we confirm we haven't regressed Step 4 items?
+- **Must fix** - items from Step 3 that block the required outcome. For each: estimated effort, what changes, risk of breaking Step 4 items.
+- **Should fix** - non-blockers that materially improve defensibility. Same shape.
+- **Won't fix this session** - real problems that don't fit the budget. These go into `NOTES.md` as known issues, not silently ignored.
+- **Order of operations** - what to fix first, second, third. Justify the ordering (usually: unblockers first, safest fixes before riskier ones).
+- **Verification gates** - between fixes, how do we confirm we haven't regressed Step 4 items?
 
 If the required outcome is genuinely not achievable in the time budget, **say so explicitly**. Propose a realistic outcome and let the user decide whether to extend the budget or lower the bar.
 
-## Step 6 — Wait for approval
+## Step 6 - Wait for approval
 
 Stop. Show the plan. The user approves, modifies, or rejects. Do not modify any code until they say "go fix."
 

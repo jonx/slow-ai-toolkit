@@ -3,7 +3,7 @@
   "owner": {
     "name": "jonx"
   },
-  "description": "The Slow AI toolkit \u2014 a working method for using AI coding agents on serious work.",
+  "description": "The Slow AI toolkit - a working method for using AI coding agents on serious work.",
   "plugins": [
     {
       "name": "slow-ai-toolkit",

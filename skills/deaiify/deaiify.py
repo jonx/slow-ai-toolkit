@@ -46,10 +46,13 @@ def default_files():
     for root, dirs, files in os.walk("."):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         rel = os.path.relpath(root, ".")
-        # This skill's own files show the offending characters literally.
+        # This skill's own files show the offending characters literally —
+        # both its directory and any deaiify.* doc (e.g. a prompt template).
         if rel == self_dir or rel.startswith(self_dir + os.sep):
             continue
         for f in files:
+            if f.startswith("deaiify."):
+                continue
             if f.endswith(DEFAULT_EXTS):
                 out.append(os.path.relpath(os.path.join(root, f), "."))
     return sorted(out)
