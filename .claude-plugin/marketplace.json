@@ -8,7 +8,7 @@
     {
       "name": "slow-ai-toolkit",
       "source": "./",
-      "description": "Eight skills (bootstrap, add-feature, rescue, give-eyes, code-review, docs-refresh, walkthrough, deaiify) plus the method docs and portable prompt templates."
+      "description": "Nine skills (bootstrap, add-feature, rescue, give-eyes, code-review, docs-refresh, docs-restructure, walkthrough, deaiify) plus the method docs and portable prompt templates."
     }
   ]
 }

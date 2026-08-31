@@ -21,6 +21,7 @@ Read the current docs, then check every factual claim against the code:
 - Status claims - anything called working that isn't, or vice versa?
 Also read NOTES.md if present - it's the source of truth for status and deferred work.
 Produce a discrepancy list: stale / missing / wrong / undocumented-but-important.
+If the tree itself is the problem (status in several files, no links, mixed mega-files), stop and use `prompts/docs-restructure.md` first.
 
 **Step 2 - Propose the structure and wait for approval.**
 The README answers, in order: **What is this?** (problem, purpose - one paragraph a newcomer gets), **Where is it going?** (vision, roadmap shape), **Where is it right now?** (specific, factual status like "boots to shell on QEMU virt; graphics not yet implemented" - neither apologetic nor inflated). Plus the practical sections this project needs: getting started, usage, observation harness if one exists, license. Show me the outline and how each discrepancy gets resolved. Do not write until I approve.

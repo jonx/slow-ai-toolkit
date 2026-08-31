@@ -1,0 +1,151 @@
+# Documentation rules
+
+<!-- Template. Replace every {placeholder}; delete rules the repository does
+     not need; keep the checklist. -->
+
+How the documentation of this repository is written and maintained. These
+rules bind every contributor, human or agent, and `{checker command}` enforces
+the mechanical ones. When in doubt, the test is: **would this sentence still be
+true and useful the day the project ships?** If not, it belongs in the journal
+or nowhere.
+
+<!-- toc -->
+<!-- /toc -->
+
+## The one rule
+
+Every document except the journal describes the **finished product** - what
+the system is, how it is built, what a procedure does, what a milestone
+requires. It does not tell the story of how it got there.
+
+| Write | Do not write |
+|---|---|
+| "The service accepts configuration only from the signed manifest." | "The service now accepts..." / "As of today..." / "The first attempt failed because..." |
+| "Status: `wip` - unit gates pass; integration open." | a paragraph re-describing every test that passes |
+| "Revision: see [{status file}#revisions]." | a commit hash in a design document |
+| one evidence or maturity banner per document | the same caveat in every sentence |
+
+Words that almost always signal journey text: *now*, *new*, *still*, *remains*,
+*no longer*, *the latest*, *today*, *currently*, *after the fix*, *was
+corrected*. Delete them or move the sentence to `{journal file}`.
+
+The journal, `{journal file}`, is the only exception. It narrates, in the past
+tense, newest first, and links to the durable documents rather than restating
+them.
+
+## Four kinds of document, one home per fact
+
+| Kind | Answers | Home | Never contains |
+|---|---|---|---|
+| **State** | where are we? | `{status file}` | design, procedure, narrative |
+| **Design** | how is it built and why is it bounded that way? | `{design location}` | status cells, dates, test transcripts, revisions |
+| **Procedure** | what do I run and what does it prove? | `{procedure files}` | design rationale, status |
+| **History** | what was decided, tried, delivered? | `{decision log}`, `{journal file}`, `{changelog}`, `{todo}` | anything another document is the home of |
+
+Anything else - a memo, a proposal, a review briefing - goes under `{memos
+folder}` and is dated in its title block.
+
+A fact is written once. Every other mention is a link. If you find the same
+fact in two places, delete one and link.
+
+## Per-document rules
+
+### Root `README.md`
+
+Product-facing. What the project is, what it is not, the architecture, how to
+build and verify, the repository map, the documentation map, the license. The
+status section is at most five table rows and links to `{status file}`; it is
+never a paragraph.
+
+### `{status file}`
+
+- One table per ladder or track, columns `ID | Milestone | Acceptance | Status
+  | Design | {procedure link column}`.
+- A status cell is **one line**: the state in backticks, what passes, what is
+  open.
+- Acceptance text is the finished-state requirement; it does not change when
+  status changes.
+- "Where we are" at the top is at most six rows.
+- Revisions, hashes and build stamps live only in the "Revisions" table.
+- A milestone becomes done only with the evidence the acceptance names.
+
+### Design documents (`{design location}`)
+
+1. `# Title`
+2. the cross-reference block (below);
+3. one evidence or maturity banner line, stated once;
+4. the design: contract, boundaries, invariants, what is deliberately out of
+   scope.
+
+No status, no dates, no revisions, no "currently", no lists of which tests
+passed.
+
+### The cross-reference block
+
+Immediately after the title (and any license comment) of every design
+document:
+
+```markdown
+> **Milestones:** {ids} | **Decisions:** [{id}]({link}) |
+> **{Procedure kind}:** [{id}]({link}) |
+> **Gates:** `{command}` | **Runbook:** [RUNBOOK.md](RUNBOOK.md)
+```
+
+Use `none` for an empty field. The block is navigation, never a place to
+repeat status. The checker requires it and verifies every identifier in it.
+
+### Runbooks and procedure documents
+
+Step-by-step: exact commands, expected output, what a result proves and what
+it does not. Present tense, imperative mood. A table of contents when long.
+
+### `{decision log}`
+
+Append-only, newest first. Entry: `## {ID}: imperative title`, a date, what
+was decided, why, what would change our mind, links to what it affects. The
+index at the top is generated.
+
+### `{journal file}`
+
+Newest first, `## YYYY-MM-DD - title`, at most about twenty lines per entry,
+links to what it touched.
+
+### Tool and test indexes
+
+Every tool has one row: name, what it does, which design document owns it.
+Every gate has one row: layer, where it runs, the command. Adding a tool or a
+gate without its row is a bug.
+
+## Tables of contents and links
+
+- A document longer than about 150 lines carries a `<!-- toc -->` /
+  `<!-- /toc -->` block after its introduction, generated by `{checker
+  command} --write-toc`, never hand-written. Not in short files.
+- Link to headings, not line numbers; the checker verifies anchors.
+- Every status row links its design document; every design document links its
+  milestones, decisions, procedures and gates; every decision links what it
+  affects; every journal entry links what it touched. A document nobody links
+  to is a bug.
+
+## Style
+
+- English, present tense, imperative mood for procedures.
+- Short sentences; a table beats a paragraph when the content is a list of
+  facts.
+- Precise identifiers in backticks.
+- One caveat per document, in the banner, not per sentence.
+- No AI or assistant attribution anywhere.
+
+## Checklist for a change
+
+- [ ] status changed -> one line in `{status file}`; changelog if it passed
+- [ ] revision changed -> the "Revisions" table only
+- [ ] new decision -> entry, index regenerated, linked from the design block
+- [ ] new design area -> document with block and banner, row in the index
+- [ ] new tool or gate -> its index row
+- [ ] new procedure -> runbook section, row in the procedure table
+- [ ] something worth telling -> journal entry with links
+- [ ] `{checker command}` passes
+
+When editing a document that still contains journey text, convert the section
+you touch to finished-state text. Do not add another paragraph after it.

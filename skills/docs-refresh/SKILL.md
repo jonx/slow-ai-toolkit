@@ -1,6 +1,6 @@
 ---
 name: docs-refresh
-description: Apply the Slow AI docs-refresh protocol when the user wants a project's README or documentation rewritten, updated, or brought back in line with the code. Use when they say "rewrite the readme", "update the docs", "the readme is out of date", "make the readme presentable", "document this project properly", or before shipping, publishing, or handing off a repo. The protocol verifies docs against the actual code first, then rewrites around three questions - what is this, where is it going, where is it right now - with a confident project-not-journey tone: no war stories, no debugging sagas, no changelog narration.
+description: Apply the Slow AI docs-refresh protocol when the user wants a project's README or documentation rewritten, updated, or brought back in line with the code. Use when they say "rewrite the readme", "update the docs", "the readme is out of date", "make the readme presentable", "document this project properly", or before shipping, publishing, or handing off a repo. The protocol verifies docs against the actual code first, then rewrites around three questions - what is this, where is it going, where is it right now - with a confident project-not-journey tone: no war stories, no debugging sagas, no changelog narration. If the documentation tree itself is the problem - status stated in several files, no links between documents, thousand-line files mixing design and procedure - run docs-restructure first, then refresh.
 ---
 
 # Slow AI - Docs Refresh
@@ -8,6 +8,12 @@ description: Apply the Slow AI docs-refresh protocol when the user wants a proje
 You are applying the **Slow AI** working method to a project's documentation. The principle: documentation that contradicts the code is rot, and a README narrates the *project*, never the *journey*.
 
 ## Step 0 - Gather context
+
+First decide whether this is a refresh or a restructure. Refresh makes the
+words true; it assumes the tree has a shape. If status is stated in several
+files, documents do not link to each other, or one file mixes design,
+procedure and history, apply the `docs-restructure` skill first and come back
+here for the README and status rewrite it hands you.
 
 If not already provided, ask as a single grouped question:
 

@@ -1,7 +1,7 @@
 {
   "name": "slow-ai-toolkit",
-  "version": "0.3.0",
-  "description": "The Slow AI working method: verify, plan, approve, implement, test, note, move on. Eight skills: bootstrap, add-feature, rescue for the build lifecycle; give-eyes, code-review, docs-refresh, walkthrough, deaiify cross-cutting.",
+  "version": "0.4.0",
+  "description": "The Slow AI working method: verify, plan, approve, implement, test, note, move on. Nine skills: bootstrap, add-feature, rescue for the build lifecycle; give-eyes, code-review, docs-refresh, docs-restructure, walkthrough, deaiify cross-cutting.",
   "author": {
     "name": "jonx"
   },

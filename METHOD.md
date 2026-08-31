@@ -151,6 +151,7 @@ Two disciplines follow:
 
 - **Docs describe the project, not the journey.** A README answers three questions: what is this, where is it going, where is it right now. Development war stories, failed approaches, and debugging sagas do not belong in it - they belong in `NOTES.md` (decisions) or nowhere. A reader of the README is a newcomer or a reviewer; neither is served by the struggle narrative.
 - **Docs get re-verified when code changes.** Any chunk that changes behavior ends with a check: does the README still tell the truth? Build instructions, feature lists, status sections - each is either still accurate or updated in the same chunk. The `docs-refresh` skill operationalizes the full-pass version of this.
+- **Every fact has one home.** Accretion is the failure mode of agent-written documentation: each session appends a paragraph to the README status, the milestone table, the journal and the design doc, and six copies of the same fact drift apart. The cure is structural: status lives in one file, design in one document per area, procedure in runbooks, history in the journal - and everything else is a link. Every document except the journal describes the finished product, not the road to it. The `docs-restructure` skill does this pass on an accreted tree and leaves a checker so it stays done; `docs-refresh` then makes the words true.
 
 ## Review is a first-class scenario
 
@@ -166,6 +167,7 @@ The skill describes the method. The templates make it operational:
 - **[`prompts/give-eyes.md`](prompts/give-eyes.md)** - build the observation harness before feature work. See "Eyes before hands."
 - **[`prompts/code-review.md`](prompts/code-review.md)** - structured multi-dimension review with severity-graded, evidence-cited findings.
 - **[`prompts/docs-refresh.md`](prompts/docs-refresh.md)** - bring README and docs back in line with the code; project-not-journey framing.
+- **[`prompts/docs-restructure.md`](prompts/docs-restructure.md)** - give an accreted documentation tree one home per fact, links, tables of contents, a single status file and enforced rules; run before docs-refresh when the tree itself is the problem.
 - **[`prompts/walkthrough.md`](prompts/walkthrough.md)** - pre-demo rehearsal: weak points, likely reviewer questions, and the answers.
 
 Each is a self-contained protocol. Filling in the bracketed fields is half the value - being specific about what to *forbid* is at least as useful as being specific about what to build.
